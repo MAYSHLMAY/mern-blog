@@ -20,10 +20,7 @@ export default function DashboardComp() {
   const [lastMonthPosts, setLastMonthPosts] = useState(0);
   const [lastMonthComments, setLastMonthComments] = useState(0);
   const { currentUser } = useSelector((state) => state.user);
-
-
   useEffect(() => {
-
     const fetchUsers = async () => {
       try {
         const res = await fetch('/api/user/getusers?limit=5');
@@ -37,7 +34,6 @@ export default function DashboardComp() {
         console.log(error.message);
       }
     };
-
     const fetchPosts = async () => {
       try {
         const res = await fetch('/api/post/getposts?limit=5');
@@ -51,10 +47,9 @@ export default function DashboardComp() {
         console.log(error.message);
       }
     };
-
     const fetchComments = async () => {
       try {
-        const res = await fetch('/api/comment/getComments?limit=5');
+        const res = await fetch('/api/comment/getcomments?limit=5');
         const data = await res.json();
         if (res.ok) {
           setComments(data.comments);
@@ -65,18 +60,12 @@ export default function DashboardComp() {
         console.log(error.message);
       }
     };
-
-
-    if (currentUser.isAdmin) {
+    if (currentUser) {
       fetchUsers();
       fetchPosts();
       fetchComments();
     }
-
-    
   }, [currentUser]);
-
-
   return (
     <div className='p-3 md:mx-auto'>
       <div className='flex-wrap flex gap-4 justify-center'>
@@ -125,7 +114,7 @@ export default function DashboardComp() {
           <div className='flex  gap-2 text-sm'>
             <span className='text-green-500 flex items-center'>
               <HiArrowNarrowUp />
-              {lastMonthPosts.length}
+              {lastMonthPosts}
             </span>
             <div className='text-gray-500'>Last month</div>
           </div>
